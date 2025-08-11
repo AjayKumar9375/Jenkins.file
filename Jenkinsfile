@@ -1,5 +1,7 @@
 pipeline {
     agent any
+
+
     stages {
         stage('Checkout') {
             steps {
@@ -16,23 +18,24 @@ pipeline {
             }
         }
 
-
         stage('Test') {
             steps {
                 bat 'mvn test'
             }
         }
-        stage('App') {
+        stage('Build Python Package') {
             steps {
-                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                    echo "Running tests on branch: ${env.BRANCH_NAME}"
-                    bat 'python application/calculator.py'
-                }
+                bat 'pip install --upgrade pip setuptools wheel'
+                bat 'python setup.py sdist bdist_wheel'
             }
         }
-        stage('Deploy') {
+        stage('Upload to Artifactory') {
             steps {
-                echo "Deploying branch: ${env.BRANCH_NAME}"
+                bat """
+                    curl -u %JFROG_USER%:%JFROG_PASSWORD% ^
+                    -T dist/my_app-1.0.0-py3-none-any.whl ^
+                    https://trialz1pw0e.jfrog.io/artifactory/tf-trial/my_app-1.0.0-py3-none-any.whl
+                """
             }
         }
     }
