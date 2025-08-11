@@ -4,7 +4,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scmGit(
-                    branches: [[name: '*/dev']],
+                    branches: [[name: '*/main']],
                     extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'application']],
                     userRemoteConfigs: [[url: 'https://github.com/AjayKumar9375/ci-cd_demo.git']]
                 )
