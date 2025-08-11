@@ -12,10 +12,16 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo "Building branch: ${env.BRANCH_NAME}"
+                bat 'mvn clean package'
             }
         }
+
         stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+        stage('App') {
             steps {
                 catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
                     echo "Running tests on branch: ${env.BRANCH_NAME}"
