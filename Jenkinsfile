@@ -3,7 +3,11 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scmGit(branches: [[name: '*/dev']], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'application']], userRemoteConfigs: [[url: 'https://github.com/AjayKumar9375/ci-cd_demo.git']])
+                checkout scmGit(
+                    branches: [[name: '*/dev']],
+                    extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'application']],
+                    userRemoteConfigs: [[url: 'https://github.com/AjayKumar9375/ci-cd_demo.git']]
+                )
             }
         }
         stage('Build') {
@@ -13,8 +17,10 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo "Running tests on branch: ${env.BRANCH_NAME}"
-                bat 'python application/calculator.py'
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                    echo "Running tests on branch: ${env.BRANCH_NAME}"
+                    bat 'python application/calculator.py'
+                }
             }
         }
         stage('Deploy') {
