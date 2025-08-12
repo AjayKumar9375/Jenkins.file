@@ -22,8 +22,8 @@ pipeline {
             steps {
                 bat """
                     curl -u %JFROG_USER%:%JFROG_PASSWORD% ^
-                    -T dist/my_app-1.0.0-py3-none-any.whl ^
-                    https://trialz1pw0e.jfrog.io/artifactory/tf-trial/my_app-1.0.0-py3-none-any.whl
+                    -T application/* ^
+                    https://trialz1pw0e.jfrog.io/artifactory/test-generic-local/application/calculator.py
                 """
             }
         }
