@@ -21,7 +21,7 @@ pipeline {
         stage('Upload to Artifactory') {
             steps {
                 bat """
-                    curl -u %JFROG_USER%:%JFROG_PASSWORD% ^
+                    curl -u%JFROG_USER%:%JFROG_PASSWORD% ^
                     -T application/calculator.py ^
                     https://trialz1pw0e.jfrog.io/artifactory/test-generic-local/application/calculator.py
                 """
