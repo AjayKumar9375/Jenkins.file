@@ -27,6 +27,11 @@ pipeline {
                 """
             }
         }
+        stage('archive artifacts') {
+            steps {
+                archiveArtifacts artifacts: 'application.zip', fingerprint: true
+            }
+        }
     }
 }
 
