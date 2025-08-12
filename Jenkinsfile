@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Build Python Package') {
             steps {
-                bat 'pip install --upgrade pip setuptools wheel'
+                bat 'python -m pip install --upgrade pip setuptools wheel'
                 bat 'python setup.py sdist bdist_wheel'
             }
         }
