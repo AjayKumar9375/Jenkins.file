@@ -15,7 +15,7 @@ pipeline {
         stage('Build Python Package') {
             steps {
                 bat 'python -m pip install --upgrade pip setuptools wheel'
-                bat 'python setup.py sdist bdist_wheel'
+                bat 'python application/setup.py sdist bdist_wheel'
             }
         }
         stage('Upload to Artifactory') {
